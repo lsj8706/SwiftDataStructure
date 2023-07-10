@@ -20,7 +20,6 @@ public struct UnsortedList<T: Equatable>: UnsortedListable, Sequence, IteratorPr
     public typealias Element = T
     
     private var info = Array<T>()
-    public let maximalCapacity: Int
     private var currentPos: Int = 0
     
     public var count: Int {
