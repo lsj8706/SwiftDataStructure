@@ -46,16 +46,14 @@ public struct SortedList<T: Equatable & Comparable>: Listable, Sequence, Iterato
     
     /// O(N)
     public mutating func insert(_ item: T) {
-        var index = 0
-        
         for i in 0..<info.count {
             if info[i] >= item {
-                index = i
-                break
+                info.insert(item, at: i)
+                return
             }
         }
         
-        info.insert(item, at: index)
+        info.append(item)
     }
     
     /// O(N)
