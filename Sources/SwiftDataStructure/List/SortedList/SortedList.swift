@@ -8,7 +8,10 @@
 import Foundation
 
 public struct SortedList<T: Equatable & Comparable>: Listable, Sequence, IteratorProtocol {
+    
     public typealias Element = T
+    
+    // MARK: - Properties
     
     private var info = Array<T>()
     private var currentPos: Int = 0
@@ -16,6 +19,12 @@ public struct SortedList<T: Equatable & Comparable>: Listable, Sequence, Iterato
     public var count: Int {
         self.info.count
     }
+    
+    // MARK: - initialization
+    
+    public init() {}
+    
+    // MARK: - Methods
     
     /// 모든 아이템 제거
     /// O(N)
