@@ -1,5 +1,5 @@
 //
-//  UnsortedList.swift
+//  SortedList.swift
 //  
 //
 //  Created by sejin on 2023/07/10.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct UnsortedList<T: Equatable>: Listable, Sequence, IteratorProtocol {
+public struct SortedList<T: Equatable & Comparable>: Listable, Sequence, IteratorProtocol {
     public typealias Element = T
     
     private var info = Array<T>()
@@ -23,14 +23,39 @@ public struct UnsortedList<T: Equatable>: Listable, Sequence, IteratorProtocol {
         info.removeAll()
     }
     
-    /// O(N)
+    /// O(logN)
     public func contains(_ item: T) -> Bool {
-        info.contains { $0 == item }
+        var start = 0
+        var end = info.count - 1
+        
+        while start <= end {
+            let mid = (start + end) / 2
+            if info[mid] == item {
+                return true
+            }
+            
+            if info[mid] > item {
+                end = mid - 1
+            } else {
+                start = mid + 1
+            }
+        }
+        
+        return false
     }
     
-    /// O(1)
+    /// O(N)
     public mutating func insert(_ item: T) {
-        info.append(item)
+        var index = 0
+        
+        for i in 0..<info.count {
+            if info[i] >= item {
+                index = i
+                break
+            }
+        }
+        
+        info.insert(item, at: index)
     }
     
     /// O(N)
