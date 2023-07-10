@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol UnsortedListable {
+public protocol Listable {
     associatedtype Element
     var count: Int { get }
     func contains(_ item: Element) -> Bool
@@ -16,7 +16,7 @@ public protocol UnsortedListable {
     mutating func reset()
 }
 
-public struct UnsortedList<T: Equatable>: UnsortedListable, Sequence, IteratorProtocol {
+public struct UnsortedList<T: Equatable>: Listable, Sequence, IteratorProtocol {
     public typealias Element = T
     
     private var info = Array<T>()
