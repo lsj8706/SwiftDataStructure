@@ -74,6 +74,15 @@ final class UnsortedListTests: XCTestCase {
         XCTAssertEqual(unsortedList.contains(4), false)
     }
     
+    func test_iterate() {
+        let arr = [4, 3, 5]
+        insertThreeItems()
+        
+        for (i, item) in unsortedList.enumerated() {
+            XCTAssertEqual(item, arr[i])
+        }
+    }
+    
     private func insertThreeItems() {
         unsortedList.insert(4)
         unsortedList.insert(3)
