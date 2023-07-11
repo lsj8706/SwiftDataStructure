@@ -40,6 +40,7 @@ public struct Stack<T> {
     }
     
     /// O(1)
+    @discardableResult
     public mutating func pop() -> T? {
         return info.popLast()
     }
