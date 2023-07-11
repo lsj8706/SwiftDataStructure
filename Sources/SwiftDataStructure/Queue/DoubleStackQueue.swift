@@ -38,6 +38,10 @@ public struct DoubleStackQueue<T> {
     
     public init() {}
     
+    public init(array: [T]) {
+        self.inbox = array
+    }
+    
     // MARK: - Methods
     
     /// O(1)

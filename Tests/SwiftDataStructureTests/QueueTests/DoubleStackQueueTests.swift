@@ -20,6 +20,13 @@ final class DoubleStackQueueTests: XCTestCase {
         self.queue = nil
     }
     
+    func test_init() {
+        var queue = DoubleStackQueue(array: [3, 1, 2])
+        XCTAssertEqual(queue.count, 3)
+        let first = queue.dequeue()
+        XCTAssertEqual(first, 3)
+    }
+    
     func test_isEmpty() {
         XCTAssertEqual(queue.isEmpty, true)
         queue.enqueue(1)
