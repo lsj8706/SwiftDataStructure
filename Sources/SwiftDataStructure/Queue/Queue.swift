@@ -46,7 +46,7 @@ public struct Queue<T> {
     /// O(1)
     /// Head 포인터가 이동 -> 특정 개수 이상 포인터가 이동 후에는 O(n)으로 한번 동작, 이후에는 다시 O(1)
     @discardableResult
-    public mutating func dequeue(_ item: T) -> T? {
+    public mutating func dequeue() -> T? {
         guard let item = self.peek else { return nil }
         info[head] = nil
         head += 1
