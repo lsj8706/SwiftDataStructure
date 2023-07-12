@@ -17,6 +17,15 @@ public class Node<T> {
     }
 }
 
+extension Node: CustomStringConvertible {
+    public var description: String {
+        guard let next = next else {
+            return "\(data)"
+        }
+        return "\(data) -> " + String(describing: next) + " "
+    }
+}
+
 /// head가 제일 앞 노드를 가리키는 List
 /// Queue로 사용할 때 유리
 public class LinkedList<T: Equatable> {
@@ -43,7 +52,7 @@ public class LinkedList<T: Equatable> {
             increaseCount()
         }
         
-        var newNode = Node(data: data)
+        let newNode = Node(data: data)
         
         if head == nil {
             head = newNode
@@ -70,7 +79,7 @@ public class LinkedList<T: Equatable> {
             increaseCount()
         }
         
-        var newNode = Node(data: data)
+        let newNode = Node(data: data)
         
         if index == 0 {
             newNode.next = head
@@ -91,6 +100,7 @@ public class LinkedList<T: Equatable> {
     }
     
     /// O(n)
+    @discardableResult
     public func removeLast() -> T? {
         defer {
             reduceCount()
@@ -118,6 +128,7 @@ public class LinkedList<T: Equatable> {
     }
     
     /// O(1)
+    @discardableResult
     public func removeFirst() -> T? {
         defer {
             self.reduceCount()
@@ -185,5 +196,16 @@ public class LinkedList<T: Equatable> {
     /// O(1)
     private func increaseCount() {
         self.count += 1
+    }
+}
+
+// MARK: - CustomStringConvertible
+
+extension LinkedList: CustomStringConvertible {
+    public var description: String {
+        guard let head = head else {
+            return "Empty list"
+        }
+        return String(describing: head)
     }
 }
