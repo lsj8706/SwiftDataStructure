@@ -179,12 +179,6 @@ public class DoublyLinkedList<T: Equatable> {
             fatalError("Index out of range")
         }
         
-        defer {
-            self.reduceCount()
-        }
-        
-        if head == nil || tail == nil { return }
-        
         if index == 0 {
             self.removeFirst()
             return
@@ -194,6 +188,12 @@ public class DoublyLinkedList<T: Equatable> {
             self.removeLast()
             return
         }
+        
+        defer {
+            self.reduceCount()
+        }
+        
+        if head == nil || tail == nil { return }
         
         var node = head
         
