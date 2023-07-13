@@ -1,23 +1,25 @@
 //
-//  LinkedList.swift
+//  DoublyLinkedList.swift
 //  
 //
-//  Created by sejin on 2023/07/12.
+//  Created by sejin on 2023/07/13.
 //
 
 import Foundation
 
-fileprivate class Node<T> {
+fileprivate class DoublyNode<T> {
     var data: T
-    var next: Node?
+    var prev: DoublyNode?
+    var next: DoublyNode?
     
-    public init(data: T, next: Node? = nil) {
+    public init(data: T, prev: DoublyNode? = nil, next: DoublyNode? = nil) {
         self.data = data
+        self.prev = prev
         self.next = next
     }
 }
 
-extension Node: CustomStringConvertible {
+extension DoublyNode: CustomStringConvertible {
     public var description: String {
         guard let next = next else {
             return "\(data)"
@@ -26,13 +28,13 @@ extension Node: CustomStringConvertible {
     }
 }
 
-/// head가 제일 앞 노드를 가리키는 List
-/// Queue로 사용할 때 유리
-public class LinkedList<T: Equatable> {
+public class DoublyLinkedList<T: Equatable> {
     
     // MARK: - Properties
     
-    private var head: Node<T>?
+    private var head: DoublyNode<T>?
+    
+    private var tail: DoublyNode<T>?
     
     public private(set) var count: Int = 0
     
@@ -46,30 +48,39 @@ public class LinkedList<T: Equatable> {
     
     // MARK: - Methods
     
+    /// O(1)
+    private func reduceCount() {
+        if self.count > 0 {
+            self.count -= 1
+        }
+    }
+    
+    /// O(1)
+    private func increaseCount() {
+        self.count += 1
+    }
+    
     /// O(n)
     public func append(_ data: T) {
         defer {
             increaseCount()
         }
         
-        let newNode = Node(data: data)
+        let newNode = DoublyNode(data: data)
         
-        if head == nil {
+        if head == nil || tail == nil {
             head = newNode
+            tail = head
             return
         }
         
-        var node = head
-        
-        while node?.next != nil {
-            node = node?.next
-        }
-        
-        node?.next = newNode
+        tail?.next = newNode
+        newNode.prev = tail
+        tail = newNode
     }
     
     /// O(n)
-    /// index가 0이라면 O(1)
+    /// index가 0 또는 count-1 이라면 O(1)
     public func insert(_ data: T, index: Int) {
         guard index <= count && index >= 0 else {
             fatalError("Index out of range")
@@ -79,11 +90,16 @@ public class LinkedList<T: Equatable> {
             increaseCount()
         }
         
-        let newNode = Node(data: data)
+        let newNode = DoublyNode(data: data)
         
         if index == 0 {
             newNode.next = head
+            head?.prev = newNode
             head = newNode
+            
+            if tail == nil {
+                tail = newNode
+            }
             return
         }
         
@@ -95,34 +111,37 @@ public class LinkedList<T: Equatable> {
         
         let nextNode = node?.next
         
-        node?.next = newNode
+        newNode.prev = node
         newNode.next = nextNode
+        node?.next = newNode
+        nextNode?.prev = newNode
+        
+        if nextNode == nil {
+            tail = newNode
+        }
     }
     
-    /// O(n)
+    /// O(1)
     @discardableResult
     public func removeLast() -> T? {
         defer {
             reduceCount()
         }
         
-        if head == nil { return nil }
+        if head == nil || tail == nil { return nil }
         
         // 1개의 노드만 존재하는 상황에서 removeLast가 실행되었을 때
         if head?.next == nil {
             let data = head?.data
             head = nil
+            tail = nil
             return data
         }
         
-        var node = head
+        let data = tail?.data
         
-        while node?.next?.next != nil {
-            node = node?.next
-        }
-        
-        let data = node?.next?.data
-        node?.next = nil
+        tail?.prev?.next = nil
+        tail = tail?.prev
         
         return data
     }
@@ -134,11 +153,22 @@ public class LinkedList<T: Equatable> {
             self.reduceCount()
         }
         
-        if head == nil { return  nil }
+        if head == nil || tail == nil { return  nil }
+        
+        // 1개의 노드만 존재하는 상황에서 removeFirst가 실행되었을 때
+        if head?.next == nil {
+            let data = head?.data
+            head = nil
+            tail = nil
+            return data
+        }
         
         let data = head?.data
         
-        head = head?.next
+        let nextNode = head?.next
+        nextNode?.prev = nil
+        
+        head = nextNode
         
         return data
     }
@@ -153,11 +183,15 @@ public class LinkedList<T: Equatable> {
             self.reduceCount()
         }
         
-        if head == nil { return }
+        if head == nil || tail == nil { return }
         
-        // 1개의 노드만 존재하는 상황에서 remove가 실행되었을 때
         if index == 0 {
-            head = head?.next
+            self.removeFirst()
+            return
+        }
+        
+        if index == self.count - 1{
+            self.removeLast()
             return
         }
         
@@ -167,7 +201,10 @@ public class LinkedList<T: Equatable> {
             node = node?.next
         }
         
-        node?.next = node?.next?.next
+        let nextNode = node?.next?.next
+        
+        node?.next = nextNode
+        nextNode?.prev = node
     }
     
     /// O(n)
@@ -185,23 +222,11 @@ public class LinkedList<T: Equatable> {
         // 마지막 노드 확인
         return node?.data == data ? true : false
     }
-    
-    /// O(1)
-    private func reduceCount() {
-        if self.count > 0 {
-            self.count -= 1
-        }
-    }
-    
-    /// O(1)
-    private func increaseCount() {
-        self.count += 1
-    }
 }
 
 // MARK: - CustomStringConvertible
 
-extension LinkedList: CustomStringConvertible {
+extension DoublyLinkedList: CustomStringConvertible {
     public var description: String {
         guard let head = head else {
             return "Empty list"
