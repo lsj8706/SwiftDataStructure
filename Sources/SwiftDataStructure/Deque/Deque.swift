@@ -51,6 +51,7 @@ public struct Deque<T> {
     
     /// O(1)
     /// outbox가 비어있는 경우 O(n)
+    @discardableResult
     public mutating func popFirst() -> T? {
         if outbox.isEmpty {
             outbox = inbox.reversed()
@@ -62,6 +63,7 @@ public struct Deque<T> {
     
     /// O(1)
     /// inbox가 비어있는 경우 O(n)
+    @discardableResult
     public mutating func popLast() -> T? {
         if inbox.isEmpty {
             inbox = outbox.reversed()
