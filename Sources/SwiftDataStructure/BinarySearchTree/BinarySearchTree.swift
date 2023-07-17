@@ -85,6 +85,42 @@ public struct BinarySearchTree<T: Comparable> {
         
         return false
     }
+    
+    /// O(logN)
+    public mutating func remove(_ item: T) {
+        self.root = remove(from: root, item: item)
+    }
+    
+    private mutating func remove(from node: TreeNode<T>?, item: T) -> TreeNode<T>? {
+        guard let node = node else { return nil }
+        
+        if item == node.data { // 지우려고 하는 노드를 찾았을 때
+            // 3가지 경우의 수 존재
+            
+            // 1. 해당 노드의 child가 없는 경우 => 바로 삭제
+            if node.left == nil && node.right == nil { return nil }
+            
+            // 2. 한 개의 child가 존재하는 경우 => 해당 child 노드로 지우는 노드를 대체
+            if node.left == nil { return node.right }
+            if node.right == nil { return node.left }
+            
+            // 3. 두 개의 child가 존재하는 경우 => 우측 subtree에서 가장 작은 노드와 지우는 노드를 대체
+            node.data = findMinimumNode(from: node.right!).data
+            node.right = remove(from: node.right, item: node.data)
+        } else if item < node.data {
+            node.left = remove(from: node.left, item: item)
+        } else {
+            node.right = remove(from: node.right, item: item)
+        }
+        
+        return node
+    }
+    
+    private func findMinimumNode(from node: TreeNode<T>) -> TreeNode<T> {
+        guard let leftNode = node.left else { return node }
+        
+        return findMinimumNode(from: leftNode)
+    }
 }
 
 // MARK: - Tree Traversal
