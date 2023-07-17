@@ -50,28 +50,21 @@ public struct BinarySearchTree<T: Comparable> {
     
     /// O(logN)
     public mutating func insert(_ item: T) {
-        guard let root = self.root else {
-            self.root = TreeNode(data: item)
-            return
+        self.root = insert(from: root, item: item)
+    }
+    
+    private mutating func insert(from node: TreeNode<T>?, item: T) -> TreeNode<T> {
+        guard let node = node else {
+            return TreeNode(data: item)
         }
         
-        var currentNode = root
-        
-        while true {
-            if currentNode.data > item {
-                guard let nextNode = currentNode.left else {
-                    currentNode.left = TreeNode(data: item)
-                    return
-                }
-                currentNode = nextNode
-            } else {
-                guard let nextNode = currentNode.right else {
-                    currentNode.right = TreeNode(data: item)
-                    return
-                }
-                currentNode = nextNode
-            }
+        if item < node.data {
+            node.left = insert(from: node.left, item: item)
+        } else {
+            node.right = insert(from: node.right, item: item)
         }
+        
+        return node
     }
     
     /// O(logN)
