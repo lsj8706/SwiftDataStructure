@@ -190,5 +190,3 @@ extension BinarySearchTree: CustomStringConvertible {
         + diagram(for: node.left, bottom + "│ ", bottom + "└──", bottom + " ")
     }
 }
-
-
