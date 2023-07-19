@@ -98,13 +98,16 @@ public struct Heap<T: Comparable> {
     @discardableResult
     public mutating func remove(at index: Int) -> T? {
         guard index < elements.count else { return nil }
-        
         let lastIndex = elements.count - 1
         elements.swapAt(index, lastIndex)
         diveDown(from: index, until: lastIndex)
         swimUp(index)
-        
         return elements.removeLast()
+    }
+    
+    /// O(1)
+    public mutating func removeAll() {
+        self.elements = []
     }
     
     /// O(logN)
@@ -124,7 +127,7 @@ public struct Heap<T: Comparable> {
         }
         
         if rightChildIndex < endIndex && sortFunction(elements[rightChildIndex], elements[temp]) {
-            temp = leftChildIndex
+            temp = rightChildIndex
         }
         
         if temp == index { return }
