@@ -14,15 +14,17 @@ public struct Heap<T: Comparable> {
     private var elements = [T]()
     private let sortFunction: (T, T) -> Bool
     
-    
+    /// O(1)
     public var isEmpty: Bool {
         self.elements.isEmpty
     }
     
+    /// O(1)
     public var count: Int {
         return elements.count
     }
     
+    /// O(1)
     public var peek: T? {
         elements.first
     }
@@ -32,6 +34,8 @@ public struct Heap<T: Comparable> {
     public init(sortFunction: @escaping (T, T) -> Bool) {
         self.sortFunction = sortFunction
     }
+    
+    // MARK: - Methods
     
     private func parentIndex(of i: Int) -> Int {
         return (i - 1) / 2
