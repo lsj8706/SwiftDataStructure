@@ -44,6 +44,7 @@ public struct PriorityQueue<T: Comparable> {
     }
     
     /// O(logN)
+    @discardableResult
     public mutating func dequeue() -> T? {
         return heap.remove()
     }
