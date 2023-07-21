@@ -117,8 +117,8 @@ public struct Heap<T: Comparable> {
     
     /// O(logN)
     private mutating func diveDown(from index: Int, until endIndex: Int) {
-        let leftChildIndex = leftChildIndex(of: index)
-        let rightChildIndex = rightChildIndex(of: index)
+        let leftChildIndex = self.leftChildIndex(of: index)
+        let rightChildIndex = self.rightChildIndex(of: index)
         
         var temp = index
         
