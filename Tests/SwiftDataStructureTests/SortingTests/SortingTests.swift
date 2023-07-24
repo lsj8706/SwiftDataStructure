@@ -38,4 +38,16 @@ final class SortingTests: XCTestCase {
         let result = Sorting.bubbleSort(elements: target)
         XCTAssertEqual(result, sortedTarget)
     }
+    
+    func test_insertion_sort() {
+        let result = Sorting.insertionSort(elements: target)
+        XCTAssertEqual(result, sortedTarget)
+    }
+    
+    func test_insertion_sort_중복_아이템() {
+        let target = [5,3,4,4,1,1,2]
+        let sortedTarget = target.sorted()
+        let result = Sorting.insertionSort(elements: target)
+        XCTAssertEqual(result, sortedTarget)
+    }
 }
