@@ -1,5 +1,5 @@
 //
-//  StraightSelectionSort.swift
+//  Sorting.swift
 //  
 //
 //  Created by sejin on 2023/07/24.
@@ -38,5 +38,25 @@ public struct Sorting {
             }
         }
         return minIndex
+    }
+    
+    /// Bubble Sort
+    /// O(N^2)
+    public static func bubbleSort<Element: Comparable>(elements: [Element]) -> [Element] {
+        var elements = elements
+        
+        for i in 0..<(elements.count-1) {
+            bubbleUp(elements: &elements, startIndex: i, endIndex: elements.count - 1)
+        }
+        
+        return elements
+    }
+    
+    private static func bubbleUp<Element: Comparable>(elements: inout [Element], startIndex: Int, endIndex: Int) {
+        for i in stride(from: endIndex, to: startIndex, by: -1) {
+            if elements[i] < elements[i-1] {
+                elements.swapAt(i, i-1)
+            }
+        }
     }
 }
