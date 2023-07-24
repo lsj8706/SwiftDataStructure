@@ -59,4 +59,33 @@ public struct Sorting {
             }
         }
     }
+    
+    /// Insertion Sort
+    /// O(N^2)
+    public static func insertionSort<Element: Comparable>(elements: [Element]) -> [Element] {
+        var elements = elements
+        
+        for count in 0..<elements.count {
+            Sorting.insertElement(elements: &elements, startIndex: 0, endIndex: count)
+        }
+        
+        return elements
+    }
+    
+    private static func insertElement<Element: Comparable>(elements: inout [Element], startIndex: Int, endIndex: Int) {
+        var finished = false
+        var current = endIndex
+        var moreToSearch: Bool {
+            current != startIndex
+        }
+        
+        while (moreToSearch && !finished) {
+            if elements[current] < elements[current-1] {
+                elements.swapAt(current, current-1)
+                current -= 1
+            } else {
+                finished = true
+            }
+        }
+    }
 }
