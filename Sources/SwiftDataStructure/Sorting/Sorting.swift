@@ -90,7 +90,7 @@ public struct Sorting {
     }
     
     // Heap Sort
-    // O(NlogN)
+    // O(N*logN)
     public static func heapSort<Element: Comparable>(elements: [Element]) -> [Element] {
         var elements = elements
         let count = elements.count
@@ -131,5 +131,42 @@ public struct Sorting {
         
         elements.swapAt(index, temp)
         diveDown(elements: &elements, from: temp, until: endIndex)
+    }
+    
+    /// Quick Sort
+    /// O(N*logN)
+    /// 정렬되어 있는 elements라면 O(N^2)
+    public static func quickSort<Element: Comparable>(elements: [Element]) -> [Element] {
+        var elements = elements
+        
+        quickSort(elements: &elements, first: 0, last: elements.count-1)
+        
+        return elements
+    }
+    
+    private static func quickSort<Element: Comparable>(elements: inout [Element], first: Int, last: Int) {
+        if first < last {
+            let pivot = partition(elements: &elements, first: first, last: last)
+            
+            quickSort(elements: &elements, first: first, last: pivot)
+            quickSort(elements: &elements, first: pivot+1, last: last)
+        }
+    }
+    
+    private static func partition<Element: Comparable>(elements: inout [Element], first: Int, last: Int) -> Int {
+        let pivot = elements[first]
+        var i = first - 1
+        var j = last + 1
+        
+        while true {
+            repeat { i += 1 } while elements[i] < pivot
+            repeat { j -= 1 } while elements[j] > pivot
+            
+            if i < j {
+                elements.swapAt(i, j)
+            } else {
+                return j
+            }
+        }
     }
 }
