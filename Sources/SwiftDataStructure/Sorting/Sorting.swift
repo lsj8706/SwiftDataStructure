@@ -88,4 +88,48 @@ public struct Sorting {
             }
         }
     }
+    
+    // Heap Sort
+    // O(NlogN)
+    public static func heapSort<Element: Comparable>(elements: [Element]) -> [Element] {
+        var elements = elements
+        let count = elements.count
+        
+        // 어레이를 최대 heap으로 바꾼다.
+        // count/2 - 1은 non-terminal 노드 중 가장 마지막 노드
+        for i in stride(from: count/2-1, through: 0, by: -1) {
+            diveDown(elements: &elements, from: i, until: count-1)
+        }
+        
+        // heap이 된 어레이를 정렬시킨다.
+        for i in stride(from: count-1, through: 1, by: -1) {
+            elements.swapAt(0, i)
+            diveDown(elements: &elements, from: 0, until: i-1)
+        }
+        
+        return elements
+    }
+    
+    /// O(logN)
+    private static func diveDown<Element: Comparable>(elements: inout [Element], from index: Int, until endIndex: Int) {
+        let leftChildIndex = 2*index + 1
+        let rightChildIndex = 2*index + 2
+        
+        var temp = index
+        
+        let sortFunction: (Element, Element) -> Bool = { $0 > $1 }
+        
+        if leftChildIndex < endIndex && sortFunction(elements[leftChildIndex], elements[temp]) {
+            temp = leftChildIndex
+        }
+        
+        if rightChildIndex < endIndex && sortFunction(elements[rightChildIndex], elements[temp]) {
+            temp = rightChildIndex
+        }
+        
+        if temp == index { return }
+        
+        elements.swapAt(index, temp)
+        diveDown(elements: &elements, from: temp, until: endIndex)
+    }
 }
