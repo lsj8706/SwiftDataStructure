@@ -62,4 +62,16 @@ final class SortingTests: XCTestCase {
         let result = Sorting.heapSort(elements: target)
         XCTAssertEqual(result, sortedTarget)
     }
+    
+    func test_quick_sort() {
+        let result = Sorting.quickSort(elements: target)
+        XCTAssertEqual(result, sortedTarget)
+    }
+    
+    func test_quick_sort_중복_아이템() {
+        let target = [5,3,4,4,1,1,2]
+        let sortedTarget = target.sorted()
+        let result = Sorting.quickSort(elements: target)
+        XCTAssertEqual(result, sortedTarget)
+    }
 }
