@@ -50,4 +50,16 @@ final class SortingTests: XCTestCase {
         let result = Sorting.insertionSort(elements: target)
         XCTAssertEqual(result, sortedTarget)
     }
+    
+    func test_heap_sort() {
+        let result = Sorting.heapSort(elements: target)
+        XCTAssertEqual(result, sortedTarget)
+    }
+    
+    func test_heap_sort_중복_아이템() {
+        let target = [5,3,4,4,1,1,2]
+        let sortedTarget = target.sorted()
+        let result = Sorting.heapSort(elements: target)
+        XCTAssertEqual(result, sortedTarget)
+    }
 }
