@@ -74,4 +74,16 @@ final class SortingTests: XCTestCase {
         let result = Sorting.quickSort(elements: target)
         XCTAssertEqual(result, sortedTarget)
     }
+    
+    func test_merge_sort() {
+        let result = Sorting.mergeSort(elements: target)
+        XCTAssertEqual(result, sortedTarget)
+    }
+    
+    func test_merge_sort_중복_아이템() {
+        let target = [5,3,4,4,1,1,2]
+        let sortedTarget = target.sorted()
+        let result = Sorting.mergeSort(elements: target)
+        XCTAssertEqual(result, sortedTarget)
+    }
 }
