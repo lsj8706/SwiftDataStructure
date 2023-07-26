@@ -169,4 +169,50 @@ public struct Sorting {
             }
         }
     }
+    
+    /// Merge Sort
+    /// O(N*logN)
+    public static func mergeSort<Element: Comparable>(elements: [Element]) -> [Element] {
+        var elements = elements
+        mergeSort(elements: &elements, left: 0, right: elements.count-1)
+        return elements
+    }
+    
+    private static func mergeSort<Element: Comparable>(elements: inout [Element], left: Int, right: Int) {
+        if left < right {
+            let mid = (left + right) / 2
+            mergeSort(elements: &elements, left: left, right: mid)
+            mergeSort(elements: &elements, left: mid+1, right: right)
+            merge(elements: &elements, leftFirst: left, leftLast: mid, rightFirst: mid+1, rightLast: right)
+        }
+    }
+    
+    private static func merge<Element: Comparable>(elements: inout [Element], leftFirst: Int, leftLast: Int, rightFirst: Int, rightLast: Int) {
+        var leftFirst = leftFirst
+        var rightFirst = rightFirst
+        var temp = [Element]()
+        let saveFirst = leftFirst
+        
+        while (leftFirst <= leftLast) && (rightFirst <= rightLast) {
+            if elements[leftFirst] < elements[rightFirst] {
+                temp.append(elements[leftFirst])
+                leftFirst += 1
+            } else {
+                temp.append(elements[rightFirst])
+                rightFirst += 1
+            }
+        }
+        
+        if leftFirst <= leftLast {
+            temp.append(contentsOf: elements[leftFirst...leftLast])
+        }
+        
+        if rightFirst <= rightLast {
+            temp.append(contentsOf: elements[rightFirst...rightLast])
+        }
+        
+        for i in saveFirst...rightLast {
+            elements[i] = temp[i-saveFirst]
+        }
+    }
 }
