@@ -86,4 +86,23 @@ final class SortingTests: XCTestCase {
         let result = Sorting.mergeSort(elements: target)
         XCTAssertEqual(result, sortedTarget)
     }
+    
+    func test_radix_sort() {
+        let result = Sorting.radixSort(elements: target)
+        XCTAssertEqual(result, sortedTarget)
+    }
+    
+    func test_radix_sort_중복_아이템() {
+        let target = [5,3,4,4,1,1,2]
+        let sortedTarget = target.sorted()
+        let result = Sorting.radixSort(elements: target)
+        XCTAssertEqual(result, sortedTarget)
+    }
+    
+    func test_radix_sort_multiple_digit() {
+        let target = [271, 491, 243, 467, 240, 107, 272, 47, 139, 141]
+        let sortedTarget = target.sorted()
+        let result = Sorting.radixSort(elements: target)
+        XCTAssertEqual(result, sortedTarget)
+    }
 }
