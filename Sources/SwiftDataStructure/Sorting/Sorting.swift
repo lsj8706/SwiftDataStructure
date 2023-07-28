@@ -215,4 +215,42 @@ public struct Sorting {
             elements[i] = temp[i-saveFirst]
         }
     }
+    
+    /// Radix Sort
+    /// O(총자릿수 * N)
+    /// 메모리 공간 많이 사용
+    public static func radixSort(elements: [Int]) -> [Int] {
+        var elements = elements
+        let radix = 10 // 0~9 까지 총 10개의 자릿수를 의미
+        var isFinished = false
+        var digit = 1   // 자릿수
+        
+        while !isFinished {
+            isFinished = true
+            var buckets = Array(repeating: [Int](), count: radix)
+            
+            for num in elements {
+                let index = num / digit  // 해당 자릿수의 숫자를 의미
+                buckets[index % radix].append(num) // 버킷에 추가
+                if isFinished && index > 0 {
+                    isFinished = false
+                }
+            }
+            
+            
+            var i = 0
+            // 해당 자릿수를 기준으로 정렬
+            for j in 0..<radix {
+                let bucket = buckets[j]
+                for num in bucket {
+                    elements[i] = num
+                    i += 1
+                }
+            }
+            
+            digit *= 10
+        }
+        
+        return elements
+    }
 }
