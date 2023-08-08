@@ -7,7 +7,7 @@
 
 import Foundation
 
-fileprivate class TreeNode<T: Comparable> {
+public class TreeNode<T: Comparable> {
     var data: T
     var left: TreeNode?
     var right: TreeNode?

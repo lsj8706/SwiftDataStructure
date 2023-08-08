@@ -7,7 +7,7 @@
 
 import Foundation
 
-fileprivate class Node<T> {
+public class Node<T> {
     var data: T
     var next: Node?
     
