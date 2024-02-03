@@ -60,7 +60,7 @@ public class DoublyLinkedList<T: Equatable> {
         self.count += 1
     }
     
-    /// O(n)
+    /// O(1)
     public func append(_ data: T) {
         defer {
             increaseCount()
